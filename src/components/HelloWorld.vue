@@ -1,32 +1,9 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
+  <div>
+    <button v-on:click="triggerAction">Trigger action</button>
+    <div>Connection status: {{ connectionStatus }}</div>
+    <div>Feedback: {{ feedback }}</div>
+    <div>Result: {{ result }}</div>
   </div>
 </template>
 
@@ -37,51 +14,85 @@ export default {
   props: {
     msg: String
   },
+  data() {
+    return {
+      ros: null,
+      goal: null,
+      feedback: null,
+      result: null,
+      connectionStatus: null,
+    }
+  },
+  methods: {
+    triggerAction: function(event) {
+      console.log("action triggered");
+      this.$data.goal.send();
+    },
+    /*
+    roslib() {
+    },
+    fibonacciClient() {
+    },
+    goal() {
+    },
+    result() {
+    },
+    send() {
+    },
+    feedback() {
+      //return this.goal.on.feedback.sequence;
+    },
+    */
+  },
+  computed: {
+  },
   mounted() {
     var ROSLIB = require('roslib');
-    var ros = new ROSLIB.Ros({
+    this.$data.ros = new ROSLIB.Ros({
       url : 'ws://localhost:9090'
     });
-
     var fibonacciClient = new ROSLIB.ActionClient({
-      ros : ros,
+      ros : this.$data.ros,
       serverName : '/fibonacci',
       actionName : 'actionlib_tutorials/FibonacciAction'
     });
-
-    var goal = new ROSLIB.Goal({
+    this.$data.goal = new ROSLIB.Goal({
       actionClient : fibonacciClient,
       goalMessage : {
-        order : 10
+        order : 5,
       }
     });
 
-    goal.on('feedback', function(feedback) {
-      console.log('Feedback: ' + feedback.sequence);
-    });
-
-    goal.on('result', function(result) {
+    this.$data.goal.on('result', function(result) {
+      this.$data.result = result.sequence;
       console.log('Final Result: ' + result.sequence);
-    });
+    }.bind(this));
 
-    ros.on('connection', function() {
+    this.$data.goal.on('feedback', function(feedback) {
+      this.$data.feedback = feedback.sequence;
+      console.log('Feedback: ' + feedback.sequence);
+    }.bind(this));
+
+    this.$data.ros.on('connection', function() {
+      this.$data.connectionStatus = 'Connected';
       console.log('Connected to websocket server.');
-    });
+    }.bind(this));
 
-    ros.on('error', function(error) {
+    this.$data.ros.on('error', function(error) {
+      this.$data.connectionStatus = 'Error connecting';
       console.log('Error connecting to websocket server: ', error);
-    });
+    }.bind(this));
 
-    ros.on('close', function() {
+    this.$data.ros.on('close', function() {
+      this.$data.connectionStatus = 'Connection closed';
       console.log('Connection to websocket server closed.');
-    });
+    }.bind(this));
 
-    goal.send();
+    // this.$data.goal.send();
   },
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 h3 {
   margin: 40px 0 0;
