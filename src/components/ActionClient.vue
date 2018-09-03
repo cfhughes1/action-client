@@ -10,10 +10,7 @@
 <script>
 
 export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
-  },
+  name: 'ActionClient',
   data() {
     return {
       ros: null,
@@ -28,23 +25,6 @@ export default {
       console.log("action triggered");
       this.$data.goal.send();
     },
-    /*
-    roslib() {
-    },
-    fibonacciClient() {
-    },
-    goal() {
-    },
-    result() {
-    },
-    send() {
-    },
-    feedback() {
-      //return this.goal.on.feedback.sequence;
-    },
-    */
-  },
-  computed: {
   },
   mounted() {
     var ROSLIB = require('roslib');
@@ -87,8 +67,6 @@ export default {
       this.$data.connectionStatus = 'Connection closed';
       console.log('Connection to websocket server closed.');
     }.bind(this));
-
-    // this.$data.goal.send();
   },
 }
 </script>
