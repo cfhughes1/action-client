@@ -1,10 +1,10 @@
 # action-client
-This application serves as a client interface to the [ROS Simple Action Server] (http://wiki.ros.org/actionlib_tutorials/Tutorials/Writing%20a%20Simple%20Action%20Server%20using%20the%20Execute%20Callback%20%28Python%29).
+This application serves as a client interface to the [ROS Simple Action Server](http://wiki.ros.org/actionlib_tutorials/Tutorials/Writing%20a%20Simple%20Action%20Server%20using%20the%20Execute%20Callback%20%28Python%29).
 
 This README is a work in progress.
 
 ## Node setup
-Check if you have node installed with `node --version`. This was developed on v10.9.0 and has not been tested on other versions. If node is not installed, it is recommended to install with nvm (node version manager) using the instructions on [this page.] (https://github.com/creationix/nvm)
+Check if you have node installed with `node --version`. This was developed on v10.9.0 and has not been tested on other versions. If node is not installed, it is recommended to install with nvm (node version manager) using the instructions on [this page.](https://github.com/creationix/nvm)
 
 ## Project setup
 In the action-client directory, run the following to install all dependencies.
