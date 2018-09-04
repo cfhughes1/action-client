@@ -26,6 +26,7 @@ export default {
     return {
       ROSLIB: null,
       ros: null,
+      fibonacciClient: null,
       goal: null,
       feedback: "Awaiting...",
       result: "Awaiting...",
@@ -40,6 +41,24 @@ export default {
     },
     triggerAction: function(event) {
       this.$data.result = "Awaiting...";
+
+      this.$data.goal = new this.$data.ROSLIB.Goal({
+        actionClient : this.$data.fibonacciClient,
+        goalMessage : {
+          order : parseInt(this.$data.order),
+        }
+      });
+
+      this.$data.goal.on('result', function(result) {
+        this.$data.result = result.sequence;
+        console.log('Final Result: ' + result.sequence);
+      }.bind(this));
+
+      this.$data.goal.on('feedback', function(feedback) {
+        this.$data.feedback = feedback.sequence;
+        console.log('Feedback: ' + feedback.sequence);
+      }.bind(this));
+
       this.$data.goal.send();
     },
   },
@@ -48,46 +67,34 @@ export default {
     this.$data.ros = new this.$data.ROSLIB.Ros({
       url : 'ws://localhost:9090'
     });
-    var fibonacciClient = new this.$data.ROSLIB.ActionClient({
+    this.$data.fibonacciClient = new this.$data.ROSLIB.ActionClient({
       ros : this.$data.ros,
       serverName : '/fibonacci',
       actionName : 'actionlib_tutorials/FibonacciAction'
     });
 
-    this.$data.goal = new this.$data.ROSLIB.Goal({
-      actionClient : fibonacciClient,
-      goalMessage : {
-        order : 5,
-      }
-    });
-
-    this.$data.goal.on('result', function(result) {
-      this.$data.result = result.sequence;
-      console.log('Final Result: ' + result.sequence);
-    }.bind(this));
-
-    this.$data.goal.on('feedback', function(feedback) {
-      this.$data.feedback = feedback.sequence;
-      console.log('Feedback: ' + feedback.sequence);
-    }.bind(this));
-
-    this.$data.ros.on('connection', function() {
-      this.$data.connectionStatus = 'Connected';
-      this.$data.isConnected = true;
-      console.log('Connected to websocket server.');
-    }.bind(this));
-
-    this.$data.ros.on('error', function(error) {
-      this.$data.connectionStatus = 'Error connecting';
-      console.log('Error connecting to websocket server: ', error);
-    }.bind(this));
-
-    this.$data.ros.on('close', function() {
-      this.$data.connectionStatus = 'Connection closed';
-      this.$data.isConnected = false;
-      console.log('Connection to websocket server closed.');
-    }.bind(this));
   },
+  watch: {
+    ros() {
+      this.$data.ros.on('connection', function() {
+        this.$data.connectionStatus = 'Connected';
+        this.$data.isConnected = true;
+        console.log('Connected to websocket server.');
+      }.bind(this));
+
+      this.$data.ros.on('error', function(error) {
+        this.$data.connectionStatus = 'Error connecting';
+        console.log('Error connecting to websocket server: ', error);
+      }.bind(this));
+
+      this.$data.ros.on('close', function() {
+        this.$data.connectionStatus = 'Connection closed';
+        this.$data.isConnected = false;
+        console.log('Connection to websocket server closed.');
+      }.bind(this));
+
+    }
+  }
 }
 </script>
 
