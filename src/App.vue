@@ -1,7 +1,9 @@
 <template>
-  <div id="app">
-    <ActionClient />
-  </div>
+  <v-app>
+    <div id="app">
+      <ActionClient />
+    </div>
+  </v-app>
 </template>
 
 <script>
