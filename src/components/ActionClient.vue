@@ -37,38 +37,38 @@ export default {
   },
   methods: {
     getConnectionColor() {
-      return this.$data.isConnected ? 'green' : 'red';
+      return this.isConnected ? 'green' : 'red';
     },
     triggerAction: function(event) {
-      this.$data.result = "Awaiting...";
+      this.result = "Awaiting...";
 
-      this.$data.goal = new this.$data.ROSLIB.Goal({
-        actionClient : this.$data.fibonacciClient,
+      this.goal = new this.ROSLIB.Goal({
+        actionClient : this.fibonacciClient,
         goalMessage : {
-          order : parseInt(this.$data.order),
+          order : parseInt(this.order),
         }
       });
 
-      this.$data.goal.on('result', function(result) {
-        this.$data.result = result.sequence;
+      this.goal.on('result', function(result) {
+        this.result = result.sequence;
         console.log('Final Result: ' + result.sequence);
       }.bind(this));
 
-      this.$data.goal.on('feedback', function(feedback) {
-        this.$data.feedback = feedback.sequence;
+      this.goal.on('feedback', function(feedback) {
+        this.feedback = feedback.sequence;
         console.log('Feedback: ' + feedback.sequence);
       }.bind(this));
 
-      this.$data.goal.send();
+      this.goal.send();
     },
   },
   mounted() {
-    this.$data.ROSLIB = require('roslib');
-    this.$data.ros = new this.$data.ROSLIB.Ros({
+    this.ROSLIB = require('roslib');
+    this.ros = new this.ROSLIB.Ros({
       url : 'ws://localhost:9090'
     });
-    this.$data.fibonacciClient = new this.$data.ROSLIB.ActionClient({
-      ros : this.$data.ros,
+    this.fibonacciClient = new this.ROSLIB.ActionClient({
+      ros : this.ros,
       serverName : '/fibonacci',
       actionName : 'actionlib_tutorials/FibonacciAction'
     });
@@ -76,20 +76,20 @@ export default {
   },
   watch: {
     ros() {
-      this.$data.ros.on('connection', function() {
-        this.$data.connectionStatus = 'Connected';
-        this.$data.isConnected = true;
+      this.ros.on('connection', function() {
+        this.connectionStatus = 'Connected';
+        this.isConnected = true;
         console.log('Connected to websocket server.');
       }.bind(this));
 
-      this.$data.ros.on('error', function(error) {
-        this.$data.connectionStatus = 'Error connecting';
+      this.ros.on('error', function(error) {
+        this.connectionStatus = 'Error connecting';
         console.log('Error connecting to websocket server: ', error);
       }.bind(this));
 
-      this.$data.ros.on('close', function() {
-        this.$data.connectionStatus = 'Connection closed';
-        this.$data.isConnected = false;
+      this.ros.on('close', function() {
+        this.connectionStatus = 'Connection closed';
+        this.isConnected = false;
         console.log('Connection to websocket server closed.');
       }.bind(this));
 
