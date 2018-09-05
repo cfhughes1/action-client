@@ -57,13 +57,16 @@ export default {
     getConnectionColor() {
       return this.isConnected ? 'green' : 'red';
     },
+
     resetResults() {
       this.feedback = "Awaiting...";
       this.result = "Awaiting...";
     },
+
     cancelAction: function(event) {
       this.goal.cancel();
     },
+
     triggerAction: function(event) {
       this.resetResults();
 
@@ -93,9 +96,11 @@ export default {
   },
   mounted() {
     this.ROSLIB = require('roslib');
+
     this.ros = new this.ROSLIB.Ros({
       url : 'ws://localhost:9090'
     });
+
     this.fibonacciClient = new this.ROSLIB.ActionClient({
       ros : this.ros,
       serverName : '/fibonacci',
@@ -112,7 +117,7 @@ export default {
       }.bind(this));
 
       this.ros.on('error', function(error) {
-          this.connectionStatus = 'Error connecting: {}'.replace("{}", error);
+        this.connectionStatus = 'Error connecting: {}'.replace("{}", error);
         console.log('Error connecting to websocket server: ', error);
       }.bind(this));
 
@@ -128,10 +133,6 @@ export default {
 </script>
 
 <style scoped>
-.status-row {
-
-}
-
 .status-col {
   width: 30%;
   float: left;
