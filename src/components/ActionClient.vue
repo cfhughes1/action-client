@@ -2,24 +2,39 @@
   <div class="base">
       <div class="status-col">
         <div class="header">Connection status</div>
-          <div class="connected" :style="{ 'backgroundColor' : getConnectionColor() }">
-          <span style="padding-left: 30px;">{{ connectionStatus }}</span>
+          <div class="connected-status-light" :style="{ 'backgroundColor' : getConnectionColor() }">
+          <span style="padding-left: 30px">{{ connectionStatus }}</span>
         </div>
       </div>
       <div class="status-col">
         <div class="header">Trigger Fibonacci sequence</div>
-        <input v-model="order" placeholder="order">
+        <input v-model.number="order" placeholder="order">
         <button v-on:click="triggerAction">Trigger action</button>
+        <button v-on:click="cancelAction">Cancel</button>
       </div>
       <div class="status-col">
         <div class="header">Results</div>
         <div>Feedback: {{ feedback }}</div>
         <div>Final result: {{ result }}</div>
+        <div>Status: {{ status }}</div>
       </div>
   </div>
 </template>
 
 <script>
+const StatusEnum = Object.freeze({
+  0: "Pending",
+  1: "Active",
+  2: "Preempted",
+  3: "Succeeded",
+  4: "Aborted",
+  5: "Rejected",
+  6: "Preempting",
+  7: "Recalling",
+  8: "Recalled",
+  9: "Lost"
+});
+
 export default {
   name: 'ActionClient',
   data() {
@@ -28,26 +43,40 @@ export default {
       ros: null,
       fibonacciClient: null,
       goal: null,
-      feedback: "Awaiting...",
-      result: "Awaiting...",
+
       connectionStatus: "Initializing",
       isConnected: false,
       order: null,
+
+      feedback: "Awaiting...",
+      result: "Awaiting...",
+      status: "Awaiting...",
     }
   },
   methods: {
     getConnectionColor() {
       return this.isConnected ? 'green' : 'red';
     },
-    triggerAction: function(event) {
+    resetResults() {
+      this.feedback = "Awaiting...";
       this.result = "Awaiting...";
+    },
+    cancelAction: function(event) {
+      this.goal.cancel();
+    },
+    triggerAction: function(event) {
+      this.resetResults();
 
       this.goal = new this.ROSLIB.Goal({
         actionClient : this.fibonacciClient,
         goalMessage : {
-          order : parseInt(this.order),
+          order : this.order,
         }
       });
+
+      this.goal.on('status', function(result) {
+        this.status = StatusEnum[result.status];
+      }.bind(this));
 
       this.goal.on('result', function(result) {
         this.result = result.sequence;
@@ -83,7 +112,7 @@ export default {
       }.bind(this));
 
       this.ros.on('error', function(error) {
-        this.connectionStatus = 'Error connecting';
+          this.connectionStatus = 'Error connecting: {}'.replace("{}", error);
         console.log('Error connecting to websocket server: ', error);
       }.bind(this));
 
@@ -120,9 +149,8 @@ export default {
   padding-bottom: 10px;
 }
 
-.connected {
+.connected-status-light {
   border-radius: 50%;
-  //background-color: green;
   height: 20px;
   width: 20px;
   display: inline-block;
