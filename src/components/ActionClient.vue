@@ -63,11 +63,11 @@ export default {
       this.result = "Awaiting...";
     },
 
-    cancelAction: function(event) {
+    cancelAction() {
       this.goal.cancel();
     },
 
-    triggerAction: function(event) {
+    triggerAction() {
       this.resetResults();
 
       this.goal = new this.ROSLIB.Goal({
@@ -83,12 +83,12 @@ export default {
 
       this.goal.on('result', function(result) {
         this.result = result.sequence;
-        console.log('Final Result: ' + result.sequence);
+        // console.log('Final Result: ' + result.sequence);
       }.bind(this));
 
       this.goal.on('feedback', function(feedback) {
         this.feedback = feedback.sequence;
-        console.log('Feedback: ' + feedback.sequence);
+        // console.log('Feedback: ' + feedback.sequence);
       }.bind(this));
 
       this.goal.send();
@@ -113,18 +113,18 @@ export default {
       this.ros.on('connection', function() {
         this.connectionStatus = 'Connected';
         this.isConnected = true;
-        console.log('Connected to websocket server.');
+        // console.log('Connected to websocket server.');
       }.bind(this));
 
       this.ros.on('error', function(error) {
         this.connectionStatus = 'Error connecting: {}'.replace("{}", error);
-        console.log('Error connecting to websocket server: ', error);
+        // console.log('Error connecting to websocket server: ', error);
       }.bind(this));
 
       this.ros.on('close', function() {
         this.connectionStatus = 'Connection closed';
         this.isConnected = false;
-        console.log('Connection to websocket server closed.');
+        // console.log('Connection to websocket server closed.');
       }.bind(this));
 
     }
