@@ -34,6 +34,7 @@ roslaunch rosbridge_server rosbridge_websocket.launch
 ```
 
 ## Client
+From a new terminal window at the root action-client directory:
 ```
 npm run serve
 ```
