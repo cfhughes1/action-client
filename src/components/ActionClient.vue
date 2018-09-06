@@ -8,9 +8,9 @@
       </div>
       <div class="status-col">
         <div class="header">Trigger Fibonacci sequence</div>
-        <input v-model.number="order" placeholder="order">
-        <button v-on:click="triggerAction">Trigger action</button>
-        <button v-on:click="cancelAction">Cancel</button>
+        <v-text-field label="order" v-model.number="order"></v-text-field>
+        <v-btn small v-on:click="triggerAction">Trigger action</v-btn>
+        <v-btn small v-on:click="cancelAction">Cancel</v-btn>
       </div>
       <div class="status-col">
         <div class="header">Results</div>
@@ -134,10 +134,11 @@ export default {
 
 <style scoped>
 .status-col {
-  width: 30%;
+  width: 33%;
   float: left;
   text-align: left;
   padding-left: 20px;
+  padding-right: 20px;
   height: 100px;
 }
 
