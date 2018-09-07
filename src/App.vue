@@ -1,10 +1,11 @@
 <template>
   <v-app id="inspire">
-    <v-toolbar color="cyan" dark fixed app>
-      <v-toolbar-title>Fibonacci Client</v-toolbar-title>
-    </v-toolbar>
     <div id="app">
-      <ActionClient />
+      <v-container fluid fill-height>
+        <v-layout align-center justify-center>
+          <ActionClient />
+        </v-layout>
+      </v-container>
     </div>
     <v-footer color="cyan" app>
     </v-footer>

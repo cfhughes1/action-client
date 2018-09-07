@@ -1,23 +1,46 @@
 <template>
   <div class="base">
-      <div class="status-col">
-        <div class="header">Connection status</div>
-          <div class="connected-status-light" :style="{ 'backgroundColor' : getConnectionColor() }">
-          <span style="padding-left: 30px">{{ connectionStatus }}</span>
-        </div>
-      </div>
-      <div class="status-col">
-        <div class="header">Trigger Fibonacci sequence</div>
-        <v-text-field label="order" v-model.number="order"></v-text-field>
-        <v-btn small v-on:click="triggerAction">Trigger action</v-btn>
-        <v-btn small v-on:click="cancelAction">Cancel</v-btn>
-      </div>
-      <div class="status-col">
-        <div class="header">Results</div>
-        <div>Feedback: {{ feedback }}</div>
-        <div>Final result: {{ result }}</div>
-        <div>Status: {{ status }}</div>
-      </div>
+      <v-toolbar color="cyan" dark fixed app>
+        <v-toolbar-title>Fibonacci client</v-toolbar-title>
+        <v-spacer />
+        <v-chip>
+            <v-avatar :style="{'backgroundColor': getConnectionColor()}"></v-avatar>
+            {{ connectionStatus }}
+        </v-chip>
+      </v-toolbar>
+      <v-container>
+        <v-card>
+          <div>
+            <v-card-title><h4>Trigger Fibonacci sequence</h4></v-card-title>
+            <v-divider />
+            <v-container>
+              <v-text-field label="order" v-model.number="order"></v-text-field>
+              <v-btn small v-on:click="triggerAction">Trigger action</v-btn>
+              <v-btn small v-on:click="cancelAction">Cancel</v-btn>
+            </v-container>
+          </div>
+        </v-card>
+      </v-container>
+      <v-container>
+        <v-card width="500px">
+          <v-card-title><h4>Results</h4></v-card-title>
+          <v-divider />
+          <v-list dense>
+            <v-list-tile>
+             <v-list-tile-content>Feedback</v-list-tile-content>
+             <v-list-tile-content class="align-end">{{ feedback }}</v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile>
+             <v-list-tile-content>Final result</v-list-tile-content>
+             <v-list-tile-content class="align-end">{{ result }}</v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile>
+             <v-list-tile-content>Status</v-list-tile-content>
+             <v-list-tile-content class="align-end">{{ status }}</v-list-tile-content>
+            </v-list-tile>
+          </v-list>
+        </v-card>
+      </v-container>
   </div>
 </template>
 
@@ -55,7 +78,7 @@ export default {
   },
   methods: {
     getConnectionColor() {
-      return this.isConnected ? 'green' : 'red';
+      return this.isConnected ? 'mediumSeaGreen' : 'tomato';
     },
 
     resetResults() {
@@ -134,16 +157,17 @@ export default {
 
 <style scoped>
 .status-col {
-  width: 33%;
   float: left;
+  width: 300px;
   text-align: left;
   padding-left: 20px;
   padding-right: 20px;
+  padding-top: 20px;
   height: 100px;
 }
 
 .status-col:not(:first-child) {
-  border-left: 1px solid;
+  //border-left: 1px solid;
 }
 
 .header {
