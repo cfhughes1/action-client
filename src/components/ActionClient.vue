@@ -1,46 +1,46 @@
 <template>
   <div class="base">
-      <v-toolbar color="cyan" dark fixed app>
-        <v-toolbar-title>Fibonacci client</v-toolbar-title>
-        <v-spacer />
-        <v-chip>
-            <v-avatar :style="{'backgroundColor': getConnectionColor()}"></v-avatar>
-            {{ connectionStatus }}
-        </v-chip>
-      </v-toolbar>
-      <v-container>
-        <v-card>
-          <div>
-            <v-card-title><h4>Trigger Fibonacci sequence</h4></v-card-title>
-            <v-divider />
-            <v-container>
-              <v-text-field label="order" v-model.number="order"></v-text-field>
-              <v-btn small v-on:click="triggerAction">Trigger action</v-btn>
-              <v-btn small v-on:click="cancelAction">Cancel</v-btn>
-            </v-container>
-          </div>
-        </v-card>
-      </v-container>
-      <v-container>
-        <v-card width="500px">
-          <v-card-title><h4>Results</h4></v-card-title>
+    <v-toolbar color="cyan" dark fixed app>
+      <v-toolbar-title>Fibonacci client</v-toolbar-title>
+      <v-spacer />
+      <v-chip>
+        <v-avatar :style="{'backgroundColor': getConnectionColor()}"></v-avatar>
+        {{ connectionStatus }}
+      </v-chip>
+    </v-toolbar>
+    <v-container>
+      <v-card>
+        <div>
+          <v-card-title><h4>Trigger Fibonacci sequence</h4></v-card-title>
           <v-divider />
-          <v-list dense>
-            <v-list-tile>
-             <v-list-tile-content>Feedback</v-list-tile-content>
-             <v-list-tile-content class="align-end">{{ feedback }}</v-list-tile-content>
-            </v-list-tile>
-            <v-list-tile>
-             <v-list-tile-content>Final result</v-list-tile-content>
-             <v-list-tile-content class="align-end">{{ result }}</v-list-tile-content>
-            </v-list-tile>
-            <v-list-tile>
-             <v-list-tile-content>Status</v-list-tile-content>
-             <v-list-tile-content class="align-end">{{ status }}</v-list-tile-content>
-            </v-list-tile>
-          </v-list>
-        </v-card>
-      </v-container>
+          <v-container>
+            <v-text-field label="order" v-model.number="order"></v-text-field>
+            <v-btn small v-on:click="triggerAction">Trigger action</v-btn>
+            <v-btn small v-on:click="cancelAction">Cancel</v-btn>
+          </v-container>
+        </div>
+      </v-card>
+    </v-container>
+    <v-container>
+      <v-card width="500px">
+        <v-card-title><h4>Results</h4></v-card-title>
+        <v-divider />
+        <v-list dense>
+          <v-list-tile>
+            <v-list-tile-content>Feedback</v-list-tile-content>
+            <v-list-tile-content class="align-end">{{ feedback }}</v-list-tile-content>
+          </v-list-tile>
+          <v-list-tile>
+            <v-list-tile-content>Final result</v-list-tile-content>
+            <v-list-tile-content class="align-end">{{ result }}</v-list-tile-content>
+          </v-list-tile>
+          <v-list-tile>
+            <v-list-tile-content>Status</v-list-tile-content>
+            <v-list-tile-content class="align-end">{{ status }}</v-list-tile-content>
+          </v-list-tile>
+        </v-list>
+      </v-card>
+    </v-container>
   </div>
 </template>
 
