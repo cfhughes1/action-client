@@ -1,8 +1,13 @@
 <template>
-  <v-app>
+  <v-app id="inspire">
+    <v-toolbar color="cyan" dark fixed app>
+      <v-toolbar-title>Fibonacci Client</v-toolbar-title>
+    </v-toolbar>
     <div id="app">
       <ActionClient />
     </div>
+    <v-footer color="cyan" app>
+    </v-footer>
   </v-app>
 </template>
 
