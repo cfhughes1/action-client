@@ -4,7 +4,7 @@
       <v-toolbar-title>Fibonacci client</v-toolbar-title>
       <v-spacer />
       <v-chip>
-        <v-avatar :style="{'backgroundColor': getConnectionColor()}"></v-avatar>
+        <v-avatar :style="{'backgroundColor': connectionColor}"></v-avatar>
         {{ connectionStatus }}
       </v-chip>
     </v-toolbar>
@@ -76,11 +76,12 @@ export default {
       status: "Awaiting...",
     }
   },
-  methods: {
-    getConnectionColor() {
+  computed: {
+    connectionColor() {
       return this.isConnected ? 'mediumSeaGreen' : 'tomato';
-    },
-
+    }
+  },
+  methods: {
     resetResults() {
       this.feedback = "Awaiting...";
       this.result = "Awaiting...";
