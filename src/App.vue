@@ -1,7 +1,15 @@
 <template>
-  <div id="app">
-    <ActionClient />
-  </div>
+  <v-app id="inspire">
+    <div id="app">
+      <v-container fluid fill-height>
+        <v-layout align-center justify-center>
+          <ActionClient />
+        </v-layout>
+      </v-container>
+    </div>
+    <v-footer color="cyan" app>
+    </v-footer>
+  </v-app>
 </template>
 
 <script>

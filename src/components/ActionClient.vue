@@ -1,23 +1,58 @@
 <template>
   <div class="base">
-      <div class="status-col">
-        <div class="header">Connection status</div>
-          <div class="connected-status-light" :style="{ 'backgroundColor' : getConnectionColor() }">
-          <span style="padding-left: 30px">{{ connectionStatus }}</span>
+    <v-toolbar color="cyan" dark fixed app>
+      <v-toolbar-title>Fibonacci client</v-toolbar-title>
+      <v-spacer />
+      <v-chip>
+        <v-avatar :style="{'backgroundColor': connectionColor}"></v-avatar>
+        {{ connectionStatus }}
+      </v-chip>
+    </v-toolbar>
+    <div>Enter a number to generate a Fibonacci sequence of that order.</div>
+    <div>Check out your results below!</div>
+    <v-container>
+      <v-card>
+        <div>
+          <v-card-title><h4>Trigger Fibonacci sequence</h4></v-card-title>
+          <v-divider />
+          <v-container>
+            <v-text-field label="Order (example: 5)" v-model.number="order"></v-text-field>
+            <v-btn small v-on:click="triggerAction">Trigger action</v-btn>
+            <v-btn small v-on:click="cancelAction">Cancel action</v-btn>
+          </v-container>
         </div>
-      </div>
-      <div class="status-col">
-        <div class="header">Trigger Fibonacci sequence</div>
-        <input v-model.number="order" placeholder="order">
-        <button v-on:click="triggerAction">Trigger action</button>
-        <button v-on:click="cancelAction">Cancel</button>
-      </div>
-      <div class="status-col">
-        <div class="header">Results</div>
-        <div>Feedback: {{ feedback }}</div>
-        <div>Final result: {{ result }}</div>
-        <div>Status: {{ status }}</div>
-      </div>
+      </v-card>
+    </v-container>
+    <v-container>
+      <v-card width="500px">
+        <v-card-title><h4>Results</h4></v-card-title>
+        <v-divider />
+        <v-list dense three-line>
+          <v-list-tile>
+            <v-list-tile-content>Feedback</v-list-tile-content>
+            <v-list-tile-content class="align-end">
+              <v-container id="scroll-target" style="max-height: 200px" class="scroll-y">
+                {{ feedback }}
+                <v-layout v-scroll:#scroll-target="onScroll" column align-center justify-center style="height: 200px"></v-layout>
+              </v-container>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-list-tile>
+            <v-list-tile-content>Final result</v-list-tile-content>
+            <v-list-tile-content class="align-end">
+              <v-container id="scroll-target" style="max-height: 200px" class="scroll-y">
+                {{ result }}
+                <v-layout v-scroll:#scroll-target="onScroll" column align-center justify-center style="height: 200px"></v-layout>
+              </v-container>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-list-tile>
+            <v-list-tile-content style="height: 300px">Status</v-list-tile-content>
+            <v-list-tile-content class="align-left">{{ status }}</v-list-tile-content>
+          </v-list-tile>
+        </v-list>
+      </v-card>
+    </v-container>
   </div>
 </template>
 
@@ -48,19 +83,20 @@ export default {
       isConnected: false,
       order: null,
 
-      feedback: "Awaiting...",
-      result: "Awaiting...",
+      feedback: "",
+      result: "",
       status: "Awaiting...",
     }
   },
+  computed: {
+    connectionColor() {
+      return this.isConnected ? 'mediumSeaGreen' : 'tomato';
+    }
+  },
   methods: {
-    getConnectionColor() {
-      return this.isConnected ? 'green' : 'red';
-    },
-
     resetResults() {
-      this.feedback = "Awaiting...";
-      this.result = "Awaiting...";
+      this.feedback = "";
+      this.result = "";
     },
 
     cancelAction() {
@@ -133,47 +169,7 @@ export default {
 </script>
 
 <style scoped>
-.status-col {
-  width: 30%;
-  float: left;
-  text-align: left;
-  padding-left: 20px;
-  height: 100px;
-}
-
-.status-col:not(:first-child) {
-  border-left: 1px solid;
-}
-
-.header {
-  font-weight: bold;
-  padding-bottom: 10px;
-}
-
-.connected-status-light {
-  border-radius: 50%;
-  height: 20px;
-  width: 20px;
-  display: inline-block;
-  float: left;
-}
-
 .base {
   font-family: sans-serif;
-}
-
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
 }
 </style>
