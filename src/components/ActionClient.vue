@@ -157,49 +157,7 @@ export default {
 </script>
 
 <style scoped>
-.status-col {
-  float: left;
-  width: 300px;
-  text-align: left;
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-top: 20px;
-  height: 100px;
-}
-
-.status-col:not(:first-child) {
-  //border-left: 1px solid;
-}
-
-.header {
-  font-weight: bold;
-  padding-bottom: 10px;
-}
-
-.connected-status-light {
-  border-radius: 50%;
-  height: 20px;
-  width: 20px;
-  display: inline-block;
-  float: left;
-}
-
 .base {
   font-family: sans-serif;
-}
-
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
 }
 </style>
