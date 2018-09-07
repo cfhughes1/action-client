@@ -16,7 +16,7 @@
           <v-container>
             <v-text-field label="Order (example: 5)" v-model.number="order"></v-text-field>
             <v-btn small v-on:click="triggerAction">Trigger action</v-btn>
-            <v-btn small v-on:click="cancelAction">Cancel</v-btn>
+            <v-btn small v-on:click="cancelAction">Cancel action</v-btn>
           </v-container>
         </div>
       </v-card>
