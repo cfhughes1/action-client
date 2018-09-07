@@ -27,18 +27,28 @@
       <v-card width="500px">
         <v-card-title><h4>Results</h4></v-card-title>
         <v-divider />
-        <v-list dense>
+        <v-list dense three-line>
           <v-list-tile>
             <v-list-tile-content>Feedback</v-list-tile-content>
-            <v-list-tile-content class="align-end">{{ feedback }}</v-list-tile-content>
+            <v-list-tile-content class="align-end">
+              <v-container id="scroll-target" style="max-height: 200px" class="scroll-y">
+                {{ feedback }}
+                <v-layout v-scroll:#scroll-target="onScroll" column align-center justify-center style="height: 200px"></v-layout>
+              </v-container>
+            </v-list-tile-content>
           </v-list-tile>
           <v-list-tile>
             <v-list-tile-content>Final result</v-list-tile-content>
-            <v-list-tile-content class="align-end">{{ result }}</v-list-tile-content>
+            <v-list-tile-content class="align-end">
+              <v-container id="scroll-target" style="max-height: 200px" class="scroll-y">
+                {{ result }}
+                <v-layout v-scroll:#scroll-target="onScroll" column align-center justify-center style="height: 200px"></v-layout>
+              </v-container>
+            </v-list-tile-content>
           </v-list-tile>
           <v-list-tile>
-            <v-list-tile-content>Status</v-list-tile-content>
-            <v-list-tile-content class="align-end">{{ status }}</v-list-tile-content>
+            <v-list-tile-content style="height: 300px">Status</v-list-tile-content>
+            <v-list-tile-content class="align-left">{{ status }}</v-list-tile-content>
           </v-list-tile>
         </v-list>
       </v-card>
@@ -73,8 +83,8 @@ export default {
       isConnected: false,
       order: null,
 
-      feedback: "Awaiting...",
-      result: "Awaiting...",
+      feedback: "",
+      result: "",
       status: "Awaiting...",
     }
   },
@@ -85,8 +95,8 @@ export default {
   },
   methods: {
     resetResults() {
-      this.feedback = "Awaiting...";
-      this.result = "Awaiting...";
+      this.feedback = "";
+      this.result = "";
     },
 
     cancelAction() {
