@@ -8,6 +8,8 @@
         {{ connectionStatus }}
       </v-chip>
     </v-toolbar>
+    <div>Enter a number to generate a Fibonacci sequence of that order.</div>
+    <div>Check out your results below!</div>
     <v-container>
       <v-card>
         <div>
